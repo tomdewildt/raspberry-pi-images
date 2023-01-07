@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "   .~~.   .~~.
+  '. \ ' ' / .'    $(hostname)
+   .~ .~~~..~.     --------------------
+  : .~.'~'.~. :    OS: $(lsb_release -sd)
+ ~ (   ) (   ) ~   Kernel: $(uname -r)
+( : '~'.~.'~' : )  Host: $(cat /sys/firmware/devicetree/base/model)
+ ~ .~ (   ) ~. ~   Owner: Tom de Wildt
+  (  : '~' :  )    Contact: t.l.dewildt@gmail.com
+   '~ .~~~. ~'     Bugs: https://github.com/tomdewildt/raspberry-pi-images/issues
+       '~'"

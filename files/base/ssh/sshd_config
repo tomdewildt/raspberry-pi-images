@@ -1,0 +1,35 @@
+# Port
+Port 22
+
+# Logging
+SyslogFacility AUTH
+LogLevel INFO
+
+# Authentication
+PermitRootLogin no
+PermitEmptyPasswords no
+
+ChallengeResponseAuthentication no
+HostbasedAuthentication no
+PasswordAuthentication no
+PubkeyAuthentication yes
+
+LoginGraceTime 2m
+MaxAuthTries 6
+MaxSessions 10
+StrictModes yes
+
+UsePAM yes
+UseDNS no
+
+# Security
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+IgnoreRhosts yes
+
+# Miscellaneous
+AcceptEnv LANG LC_*
+X11Forwarding no
+PrintMotd no
+Subsystem sftp /usr/lib/openssh/sftp-server
