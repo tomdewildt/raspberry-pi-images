@@ -11,8 +11,8 @@ variable "username" {
 }
 
 locals {
-    image_url         = "https://github.com/tomdewildt/raspberry-pi-images/releases/download/v0.1.0/debian-raspi-base.img.xz"
-    image_checksum    = "file:https://github.com/tomdewildt/raspberry-pi-images/releases/download/v0.1.0/debian-raspi-base.img.xz.sha256"
+    image_url         = "https://github.com/tomdewildt/raspberry-pi-images/releases/download/v0.2.0/debian-raspi-base.img.xz"
+    image_checksum    = "file:https://github.com/tomdewildt/raspberry-pi-images/releases/download/v0.2.0/debian-raspi-base.img.xz.sha256"
     image_mounts      = ["/boot", "/"]
 }
 
