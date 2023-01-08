@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+
+    <title>$camera_name</title>
+
+    <style type="text/css">
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1;
+            text-transform: uppercase;
+            color: #E9ECEF;
+            background-color: #343A40;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stream {
+            position: relative;
+            width: 100%;
+            height: auto;
+            min-width: 256px;
+            min-height: 144px;
+            max-width: $camera_width;
+            max-height: $camera_height;
+            background-color: #000000;
+        }
+
+        .stream .content {
+            display: block;
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+        }
+
+        .stream .text-left {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            padding: 4px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        .stream .text-right {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 4px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        @media screen and (min-aspect-ratio:16/9) {
+            .stream {
+                width: auto;
+                height: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <div class="stream">
+            <img src="/stream" class="content" />
+            <span class="text-left">$camera_name</span>
+            <span class="text-right" id="timestamp">00-00-0000 --:--:--</span>
+        </div>
+    </main>
+
+    <script type="text/javascript">
+        const timestamp = document.getElementById("timestamp");
+        const fmt = new Intl.DateTimeFormat("nl-NL", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+        });
+
+        setInterval(() => {
+            const date = new Date();
+            timestamp.textContent = fmt.format(date);
+        }, 1000);
+    </script>
+</body>
+
+</html>

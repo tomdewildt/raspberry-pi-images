@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+
+    <title>Invalid Request</title>
+
+    <style type="text/css">
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1;
+            color: #E9ECEF;
+            background-color: #343A40;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            padding: 32px;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .container h1 {
+            font-size: 3em;
+        }
+
+        .container p {
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <h1><!--# echo var="status" --> Invalid Request</h1>
+        <p>Sorry, the page you are looking for is not found or access is prohibited.</p>
+    </main>
+</body>
+
+</html>
