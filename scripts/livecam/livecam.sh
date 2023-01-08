@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu -o pipefail
 
-# Install package
+# Install packages
 apt-get install -y apache2-utils gettext motion nginx
 
 # Configure motion
