@@ -1,0 +1,2 @@
+### tuple ### allow tcp 80 0.0.0.0/0 any 0.0.0.0/0 in comment=616c6c6f772068747470
+-A ufw-user-input -p tcp --dport 80 -j ACCEPT
