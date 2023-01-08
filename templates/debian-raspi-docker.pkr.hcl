@@ -30,14 +30,19 @@ build {
     name              = var.name
     sources           = ["source.arm-image.debian-bullseye"]
 
+    provisioner "file" {
+        source        = "./files/docker/"
+        destination   = "/tmp/packer"
+    }
+
     provisioner "shell" {
         environment_vars = [
             "name=${var.name}",
             "username=${var.username}",
         ]
         scripts = [
-            "./scripts/docker/common.sh",
             "./scripts/docker/docker.sh",
+            "./scripts/docker/common.sh",
         ]
     }
 }
