@@ -2,7 +2,7 @@
 [![Version](https://img.shields.io/github/v/release/tomdewildt/raspberry-pi-images?label=version)](https://github.com/tomdewildt/raspberry-pi-images/releases)
 [![Build](https://img.shields.io/github/actions/workflow/status/tomdewildt/raspberry-pi-images/ci.yml?branch=master)](https://github.com/tomdewildt/raspberry-pi-images/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/actions/workflow/status/tomdewildt/raspberry-pi-images/cd.yml?label=release)](https://github.com/tomdewildt/raspberry-pi-images/actions/workflows/cd.yml)
-[![License](https://img.shields.io/github/license/tomdewildt/raspberry-pi-images)](https://github.com/tomdewildt/homelab/blob/raspberry-pi-images/LICENSE)
+[![License](https://img.shields.io/github/license/tomdewildt/raspberry-pi-images)](https://github.com/tomdewildt/raspberry-pi-images/blob/master/LICENSE)
 
 Configuration for creating my [Raspberry Pi](https://www.raspberrypi.org/) images using [HashiCorp Packer](https://developer.hashicorp.com/packer).
 
