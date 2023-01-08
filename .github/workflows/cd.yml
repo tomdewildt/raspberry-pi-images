@@ -36,6 +36,8 @@ jobs:
           version: 1.8.5
       - name: Install dependencies
         run: packer init config.pkr.hcl
+        env:
+          PACKER_GITHUB_API_TOKEN: ${{ secrets.PACKER_GITHUB_API_TOKEN }}
       - name: Run build
         run: sudo -E packer build ${{ matrix.template }}
       - name: Locate artifact
