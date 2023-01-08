@@ -29,7 +29,7 @@ jobs:
       - name: Setup os
         run: sudo apt-get install qemu-user-static -y
       - name: Setup env
-        run: echo "$(echo '${{ toJSON(secrets) }}' | jq -r 'to_entries[]|"\(.key[:8])\(.key[8:]|ascii_downcase)=\(.value)"')" >> $GITHUB_ENV
+        run: echo "$(echo '${{ toJSON(secrets) }}' | jq -r 'to_entries[]|select(.key|contains("PKR_VAR"))|"\(.key[:8])\(.key[8:]|ascii_downcase)=\(.value)"')" >> $GITHUB_ENV
       - name: Setup packer
         uses: hashicorp/setup-packer@v2.0.0
         with:
