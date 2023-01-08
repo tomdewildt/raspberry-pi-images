@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu -o pipefail
 
-# Install package
+# Install packages
 apt-get install -y locales
 
 # Generate locale
