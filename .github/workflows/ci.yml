@@ -13,7 +13,7 @@ jobs:
       matrix: ${{ steps.templates.outputs.matrix }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
       - name: List templates
         id: templates
         run: echo "matrix=$(ls templates/*.pkr.hcl | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
@@ -26,7 +26,7 @@ jobs:
         template: ${{ fromJson(needs.list.outputs.matrix) }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
       - name: Setup os
         run: sudo apt-get install qemu-user-static -y
       - name: Setup env
