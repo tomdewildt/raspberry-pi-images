@@ -1,6 +1,9 @@
 #!/bin/bash
 set -eu -o pipefail
 
+# Update repositories
+apt-get update
+
 # Install dependencies
 apt-get install -y ca-certificates curl gnupg lsb-release
 

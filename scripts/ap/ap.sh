@@ -1,8 +1,10 @@
 #!/bin/bash
 set -eu -o pipefail
 
-# Install packages
+# Update repositories
 apt-get update
+
+# Install packages
 apt-get install -y network-manager dnsmasq
 
 # Stop services
