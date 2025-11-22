@@ -5,86 +5,76 @@ set -eu -o pipefail
 apt-get update
 
 # Install packages
-apt-get install -y network-manager dnsmasq
+apt-get install -y hostapd dnsmasq bridge-utils
 
-# Create configuration directory
-mkdir -p /etc/NetworkManager/system-connections
+# Stop services
+systemctl stop hostapd
+systemctl stop dnsmasq
 
-# Configure bridge connection
-cat <<EOF > /etc/NetworkManager/system-connections/bridge.nmconnection
-[connection]
-id=bridge
-type=bridge
-interface-name=bridge0
-autoconnect=true
-autoconnect-priority=100
+# Disable conflicting managers
+if systemctl is-enabled --quiet dhcpcd; then
+  systemctl disable --now dhcpcd
+fi
+if systemctl list-unit-files | grep -q NetworkManager.service; then
+  systemctl disable --now NetworkManager || true
+fi
 
-[bridge]
-stp=false
+# Configure interfaces
+if [ -f /etc/dhcpcd.conf ]; then
+  mv /etc/dhcpcd.conf /etc/dhcpcd.conf.bak.$(date +%s) || true
+fi
+cat <<EOF >/etc/network/interfaces
+auto lo
+iface lo inet loopback
 
-[ipv4]
-method=manual
-address1=$network_gateway_ip/24
-gateway=$network_gateway_ip
+auto br0
+iface br0 inet static
+    address $network_gateway_ip
+    netmask $network_subnet_mask
+    bridge_ports eth0
+    bridge_stp off
+    bridge_fd 0
 
-[ipv6]
-method=disabled
+allow-hotplug eth0
+iface eth0 inet manual
+
+allow-hotplug wlan0
+iface wlan0 inet manual
 EOF
-chmod 600 /etc/NetworkManager/system-connections/bridge.nmconnection
 
-# Configure ethernet connection
-cat <<EOF > /etc/NetworkManager/system-connections/ethernet.nmconnection
-[connection]
-id=ethernet
-type=ethernet
-interface-name=eth0
-autoconnect=true
-autoconnect-priority=50
-master=bridge0
-slave-type=bridge
-
-[ethernet]
-EOF
-chmod 600 /etc/NetworkManager/system-connections/ethernet.nmconnection
-
-# Configure hotspot connection
-cat <<EOF > /etc/NetworkManager/system-connections/hotspot.nmconnection
-[connection]
-id=hotspot
-type=wifi
-interface-name=wlan0
-autoconnect=true
-autoconnect-priority=50
-master=bridge0
-slave-type=bridge
-
-[wifi]
-mode=ap
+# Configure hostapd
+cat <<EOF >/etc/hostapd/hostapd.conf
+country_code=NL
+interface=wlan0
+bridge=br0
 ssid=$network_name
+hw_mode=g
+channel=6
+ieee80211n=1
+wmm_enabled=1
 
-[wifi-security]
-key-mgmt=wpa-psk
-proto=rsn
-pairwise=ccmp
-psk=$network_password
-
-[ipv4]
-method=disabled
-
-[ipv6]
-method=disabled
+auth_algs=1
+wpa=2
+wpa_key_mgmt=WPA-PSK
+rsn_pairwise=CCMP
+wpa_passphrase=$network_password
 EOF
-chmod 600 /etc/NetworkManager/system-connections/hotspot.nmconnection
+sed -i 's|^#\?DAEMON_CONF=.*|DAEMON_CONF="/etc/hostapd/hostapd.conf"|' /etc/default/hostapd
 
 # Configure dnsmasq
-cat <<EOF > /etc/dnsmasq.d/bridge.conf
-interface=bridge0
+if [ -f /etc/dnsmasq.conf ]; then
+  mv /etc/dnsmasq.conf /etc/dnsmasq.conf.bak.$(date +%s)
+fi
+cat <<EOF >/etc/dnsmasq.conf
+interface=br0
+bind-interfaces
+
 dhcp-range=$dhcp_range_start,$dhcp_range_end,$network_subnet_mask,24h
 dhcp-option=3,$network_gateway_ip
 dhcp-option=6,$network_gateway_ip
-port=0
 EOF
 
 # Enable services
-systemctl enable NetworkManager
+systemctl unmask hostapd || true
+systemctl enable hostapd
 systemctl enable dnsmasq
